@@ -177,7 +177,7 @@ function App() {
             <div className="homeSmallCaption">Experience the new CR - X in top form with increased race track performance</div>
 
             <style>{`
-              .homeBg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg, rgba(3,6,9,0.35), rgba(3,6,9,0.45)), url('/F1.jpg') center/cover no-repeat;filter:contrast(1.02) saturate(1.05);}
+              .homeBg{position:absolute;inset:0;z-index:0;background:#0057ff;filter:contrast(1.02) saturate(1.05);}
               .homeSideQuote{position:absolute;right:4vw;top:30%;color:#ffffff;text-align:right;font-size:clamp(14px,2.6vw,28px);line-height:1.15;font-weight:700;text-shadow:0 6px 20px rgba(0,0,0,0.6);max-width:340px}
               .homeSmallCaption{position:relative;margin-top:28px;color:#d8e1e6;font-size:14px;text-align:center;opacity:0.95}
 
