@@ -230,7 +230,7 @@ function App() {
   const total = pages.length;
   const containerRef = useRef(null);
   const isLocked = useRef(false);
-  const touchStartY = useRef(0);
+  const touchStartX = useRef(0);
 
   const goTo = (index) => {
     if (index < 0 || index >= total) return;
@@ -251,10 +251,10 @@ function App() {
   };
 
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") next();
-      if (e.key === "ArrowUp" || e.key === "ArrowLeft") prev();
-    };
+      const onKey = (e) => {
+        if (e.key === "ArrowRight") next();
+        if (e.key === "ArrowLeft") prev();
+      };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [currentPage]);
@@ -265,7 +265,7 @@ function App() {
 
     const onWheel = (e) => {
       if (isLocked.current) return;
-      const delta = e.deltaY;
+      const delta = e.deltaY || e.deltaX;
       if (Math.abs(delta) < 5) return;
       isLocked.current = true;
       if (delta > 0) next();
@@ -274,12 +274,12 @@ function App() {
     };
 
     const onTouchStart = (e) => {
-      touchStartY.current = e.touches[0].clientY;
+      touchStartX.current = e.touches[0].clientX;
     };
 
     const onTouchEnd = (e) => {
-      const end = e.changedTouches[0].clientY;
-      const diff = touchStartY.current - end;
+      const end = e.changedTouches[0].clientX;
+      const diff = touchStartX.current - end;
       if (Math.abs(diff) > 40) {
         if (diff > 0) next();
         else prev();
@@ -312,14 +312,17 @@ function App() {
           fontFamily: "Arial, sans-serif",
           overflow: "hidden",
           height: "100vh",
+          width: "100vw",
         }}
       >
         <div
           style={{
             height: "100%",
-            width: "100%",
+            width: `${total * 100}vw`,
+            display: "flex",
+            flexDirection: "row",
             transition: "transform 0.85s cubic-bezier(.2,.9,.2,1)",
-            transform: `translateY(-${currentPage * 100}vh)`,
+            transform: `translateX(-${currentPage * 100}vw)`,
           }}
         >
           {pages.map((p) => (
@@ -327,9 +330,10 @@ function App() {
               key={p.id}
               style={{
                 height: "100vh",
-                width: "100%",
+                width: "100vw",
                 boxSizing: "border-box",
-                overflow: "auto",
+                overflow: "hidden",
+                flex: "0 0 100vw",
               }}
             >
               {p.node}

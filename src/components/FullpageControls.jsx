@@ -1,7 +1,9 @@
 import React from "react";
 
 function FullpageControls({ current = 0, total = 1, onPrev, onNext }) {
-  const pad = (n) => String(n + 1).padStart(2, "0");
+  const padNum = (n) => String(n).padStart(2, "0");
+  const currentDisplay = padNum(current + 1);
+  const totalDisplay = padNum(total);
 
   return (
     <div>
@@ -10,12 +12,14 @@ function FullpageControls({ current = 0, total = 1, onPrev, onNext }) {
         style={{
           position: "fixed",
           left: "24px",
-          bottom: "36px",
+          top: "50%",
+          transform: "translateY(-50%)",
           zIndex: 20,
         }}
       >
         <button
           onClick={onPrev}
+          aria-label="Previous"
           style={{
             background: "transparent",
             color: "#aab6bd",
@@ -24,7 +28,7 @@ function FullpageControls({ current = 0, total = 1, onPrev, onNext }) {
             cursor: "pointer",
           }}
         >
-          Prev
+          ←
         </button>
       </div>
 
@@ -32,12 +36,14 @@ function FullpageControls({ current = 0, total = 1, onPrev, onNext }) {
         style={{
           position: "fixed",
           right: "24px",
-          bottom: "36px",
+          top: "50%",
+          transform: "translateY(-50%)",
           zIndex: 20,
         }}
       >
         <button
           onClick={onNext}
+          aria-label="Next"
           style={{
             background: "transparent",
             color: "#aab6bd",
@@ -46,7 +52,7 @@ function FullpageControls({ current = 0, total = 1, onPrev, onNext }) {
             cursor: "pointer",
           }}
         >
-          Next
+          →
         </button>
       </div>
 
@@ -54,42 +60,38 @@ function FullpageControls({ current = 0, total = 1, onPrev, onNext }) {
       <div
         style={{
           position: "fixed",
-          right: "50%",
-          transform: "translateX(50%)",
-          bottom: "18px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          bottom: "20px",
           zIndex: 20,
           color: "#aab6bd",
           fontSize: "12px",
           letterSpacing: "2px",
         }}
       >
-        {pad(current)} / {pad(total - 1)}
+        {currentDisplay} / {totalDisplay}
       </div>
 
-      {/* Vertical progress indicator */}
+      {/* Horizontal progress indicator */}
       <div
         style={{
           position: "fixed",
-          right: "8px",
-          top: "50%",
-          transform: "translateY(-50%)",
-          height: "60%",
-          width: "6px",
+          left: "10%",
+          right: "10%",
+          bottom: "12px",
+          height: "6px",
           background: "rgba(255,255,255,0.03)",
           borderRadius: "6px",
           zIndex: 15,
-          display: "flex",
-          alignItems: "flex-start",
-          padding: "6px",
         }}
       >
         <div
           style={{
-            width: "4px",
+            height: "100%",
             background: "#00c2ff",
-            borderRadius: "4px",
-            transition: "height 0.45s ease",
-            height: `${((current + 1) / total) * 100}%`,
+            borderRadius: "6px",
+            width: `${((current + 1) / total) * 100}%`,
+            transition: "width 0.45s ease",
           }}
         />
       </div>
