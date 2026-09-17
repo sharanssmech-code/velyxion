@@ -34,159 +34,80 @@ function App() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            textAlign: "center",
-            padding: "100px 20px 40px",
+            textAlign: "left",
+            padding: "0",
             boxSizing: "border-box",
+            position: "relative",
+            overflow: "hidden",
           }}
         >
           <div className="homeBg" />
 
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "1200px",
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            <div
-              style={{
-                fontSize: "11px",
-                letterSpacing: "5px",
-                color: "#00c2ff",
-                marginBottom: "30px",
-                fontWeight: "600",
-              }}
-            >
-              FORMULA STUDENT • ELECTRIC
+          <div className="heroContainer">
+            <div className="heroLeft">
+              <div className="heroLabel">FORMULA STUDENT / ELECTRIC RACING</div>
+
+              <img src="/VELYXION.png" alt="VELYXION" className="heroLogo" />
+
+              <h1 className="heroTitle">VELYXION</h1>
+
+              <div className="heroHeadline">ELECTRIC PERFORMANCE,<br/>ENGINEERED BY STUDENTS.</div>
+
+              <div className="heroLead">A student-built electric race car driven by engineering, innovation and the pursuit of performance.</div>
+
+              <a href="#car" className="heroCTA">Explore The Car</a>
             </div>
 
-            <img
-              src="/VELYXION.png"
-              alt="VELYXION"
-              style={{
-                width: "280px",
-                maxWidth: "65vw",
-                height: "auto",
-                marginBottom: "30px",
-                filter:
-                  "drop-shadow(0 0 20px rgba(0, 194, 255, 0.35))",
-              }}
-            />
-
-            {/* Car image element with subtle 3D float/tilt/glow */}
-            <div className="heroImageWrapper">
-              <img
-                src="/F1.jpg"
-                alt="Formula Student electric race car"
-                className="heroImage"
-              />
+            <div className="heroRight">
+              <div className="carWrap">
+                <div className="carGlow" />
+                <img src="/F1.jpg" alt="VELYXION car" className="heroCar"/>
+              </div>
             </div>
 
-            <style>{`
-              .heroImageWrapper{display:flex;justify-content:center;margin:18px 0 28px;perspective:1200px}
-              .heroImage{width:760px;max-width:88vw;height:auto;border-radius:8px;box-shadow:0 30px 70px rgba(0,0,0,0.6),0 0 40px rgba(0,194,255,0.06);filter:drop-shadow(0 12px 30px rgba(0,194,255,0.08));transform-origin:center center;transition:transform 0.5s ease}
-              .heroImage{animation:floatTilt 7s ease-in-out infinite}
-
-              @keyframes floatTilt{
-                0%{transform: translateY(0px) rotateX(3deg) rotateY(-2deg)}
-                25%{transform: translateY(-10px) rotateX(4deg) rotateY(1deg)}
-                50%{transform: translateY(-16px) rotateX(3deg) rotateY(2deg)}
-                75%{transform: translateY(-10px) rotateX(4deg) rotateY(1deg)}
-                100%{transform: translateY(0px) rotateX(3deg) rotateY(-2deg)}
-              }
-
-              @media (max-width: 720px){
-                .heroImage{width:92vw;border-radius:6px}
-              }
-            `}</style>
-
-            <h1
-              style={{
-                margin: "0",
-                fontSize: "clamp(64px, 9vw, 120px)",
-                fontWeight: "700",
-                letterSpacing: "10px",
-                lineHeight: "0.95",
-                textAlign: "left",
-                color: "#0b0b0b",
-                textShadow: "0 6px 18px rgba(0,0,0,0.12)",
-                marginLeft: "2vw",
-              }}
-            >
-              VELYXION
-            </h1>
-
-            <p
-              style={{
-                margin: "28px 0 0",
-                fontSize: "clamp(14px, 2vw, 20px)",
-                letterSpacing: "3px",
-                lineHeight: "1.8",
-                color: "#263238",
-              }}
-            >
-              ELECTRIC PERFORMANCE,
-              <br />
-              ENGINEERED BY STUDENTS.
-            </p>
-
-            <div
-              style={{
-                width: "120px",
-                height: "1px",
-                margin: "36px auto",
-                background: "#00c2ff",
-                boxShadow: "0 0 14px rgba(0, 194, 255, 0.8)",
-              }}
-            />
-
-            <p
-              style={{
-                maxWidth: "620px",
-                margin: "0 auto",
-                color: "#475057",
-                fontSize: "14px",
-                lineHeight: "1.9",
-                letterSpacing: "1px",
-              }}
-            >
-              A student-built electric race car driven by engineering,
-              innovation, and the pursuit of performance.
-            </p>
-
-            <div
-              style={{
-                marginTop: "55px",
-                fontSize: "10px",
-                letterSpacing: "4px",
-                color: "#66747c",
-              }}
-            >
-              ↓ &nbsp; SCROLL TO EXPLORE
-            </div>
-
-            {/* Right side quote */}
-            <div className="homeSideQuote">
-              Top performers require
-              <br /> more than perfect conditions
-              <br /> especially just luck
-            </div>
-
-            {/* Small center caption */}
-            <div className="homeSmallCaption">Experience the new CR - X in top form with increased race track performance</div>
-
-            <style>{`
-              .homeBg{position:absolute;inset:0;z-index:0;background:#ffffff;filter:contrast(1.02) saturate(1.05);}
-              .homeSideQuote{position:absolute;right:4vw;top:30%;color:#0b0b0b;text-align:right;font-size:clamp(14px,2.6vw,28px);line-height:1.15;font-weight:700;text-shadow:0 6px 12px rgba(0,0,0,0.08);max-width:340px}
-              .homeSmallCaption{position:relative;margin-top:28px;color:#263238;font-size:14px;text-align:center;opacity:0.95}
-
-              @media (max-width:900px){
-                .homeSideQuote{position:relative;right:auto;top:auto;text-align:center;margin-top:18px}
-                h1{font-size:clamp(44px,9vw,72px);text-align:center;margin-left:0}
-              }
-            `}</style>
+            <div className="scrollIndicator">Scroll ↓</div>
           </div>
+
+          <style>{`
+            .homeBg{position:absolute;inset:0;z-index:0;background:#ffffff;}
+
+            .heroContainer{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1200px;padding:88px 6vw;box-sizing:border-box;margin:0 auto}
+
+            .heroLeft{flex:1;min-width:320px}
+            .heroRight{flex:1;display:flex;align-items:center;justify-content:center}
+
+            .heroLabel{color:#00c2ff;font-weight:700;letter-spacing:4px;font-size:12px;margin-bottom:20px}
+            .heroLogo{width:260px;max-width:60%;height:auto;margin-bottom:14px;filter:drop-shadow(0 12px 30px rgba(0,194,255,0.12))}
+
+            .heroTitle{margin:0;font-size:clamp(48px,9vw,110px);letter-spacing:10px;font-weight:800;color:#0b0b0b;line-height:0.9;margin-bottom:8px}
+
+            .heroHeadline{font-size:clamp(20px,3.2vw,28px);font-weight:700;color:#263238;letter-spacing:2px;margin-bottom:18px}
+
+            .heroLead{max-width:620px;color:#475057;line-height:1.8;margin-bottom:28px}
+
+            .heroCTA{display:inline-block;padding:14px 22px;background:#00c2ff;color:#021016;font-weight:700;border-radius:8px;text-decoration:none;box-shadow:0 10px 30px rgba(0,194,255,0.18);transition:transform .18s ease,box-shadow .18s ease}
+            .heroCTA:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(0,194,255,0.22)}
+
+            .carWrap{position:relative;width:760px;max-width:88vw;display:flex;align-items:center;justify-content:center}
+            .heroCar{width:100%;height:auto;border-radius:10px;box-shadow:0 30px 80px rgba(2,10,18,0.5);transform-origin:center;animation:carEntrance 1s cubic-bezier(.2,.9,.2,1) both,carFloat 6s ease-in-out infinite}
+            .carGlow{position:absolute;inset:20% -10% -10% -10%;background:radial-gradient(40% 60% at 50% 40%, rgba(0,194,255,0.18), rgba(0,194,255,0.06) 25%, transparent 60%);filter:blur(18px);pointer-events:none}
+
+            @keyframes carEntrance{from{transform:translateY(40px) scale(.98);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+            @keyframes carFloat{0%{transform:translateY(0px)}50%{transform:translateY(-8px)}100%{transform:translateY(0px)}}
+
+            .scrollIndicator{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2;color:#66747c;font-weight:700;letter-spacing:3px}
+
+            @media (max-width:900px){
+              .heroContainer{flex-direction:column;padding:48px 6vw}
+              .heroRight{order:2;margin-top:26px}
+              .heroLeft{order:1;text-align:center}
+              .heroLogo{max-width:45%}
+              .heroTitle{font-size:clamp(36px,10vw,64px);text-align:center}
+              .heroHeadline{text-align:center}
+              .heroLead{text-align:center}
+              .carWrap{width:92vw}
+            }
+          `}</style>
         </section>
 
         {/* ================= THE CAR ================= */}
