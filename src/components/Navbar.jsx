@@ -1,4 +1,4 @@
-function Navbar() {
+function Navbar({ navigateTo }) {
   return (
     <nav
       style={{
@@ -54,19 +54,55 @@ function Navbar() {
           alignItems: "center",
         }}
       >
-        <a href="#home" style={linkStyle}>
+        <a
+          href="#home"
+          style={linkStyle}
+          onClick={(e) => {
+            if (navigateTo) {
+              e.preventDefault();
+              navigateTo("home");
+            }
+          }}
+        >
           HOME
         </a>
 
-        <a href="#car" style={linkStyle}>
+        <a
+          href="#car"
+          style={linkStyle}
+          onClick={(e) => {
+            if (navigateTo) {
+              e.preventDefault();
+              navigateTo("car");
+            }
+          }}
+        >
           THE CAR
         </a>
 
-        <a href="#technology" style={linkStyle}>
+        <a
+          href="#technology"
+          style={linkStyle}
+          onClick={(e) => {
+            if (navigateTo) {
+              e.preventDefault();
+              navigateTo("technology");
+            }
+          }}
+        >
           TECHNOLOGY
         </a>
 
-        <a href="#team" style={linkStyle}>
+        <a
+          href="#team"
+          style={linkStyle}
+          onClick={(e) => {
+            if (navigateTo) {
+              e.preventDefault();
+              navigateTo("team");
+            }
+          }}
+        >
           TEAM
         </a>
       </div>
