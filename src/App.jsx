@@ -39,10 +39,14 @@ function App() {
             boxSizing: "border-box",
           }}
         >
+          <div className="homeBg" />
+
           <div
             style={{
               width: "100%",
               maxWidth: "1000px",
+              position: "relative",
+              zIndex: 1,
             }}
           >
             <div
@@ -69,6 +73,20 @@ function App() {
                   "drop-shadow(0 0 20px rgba(0, 194, 255, 0.35))",
               }}
             />
+
+            <style>{`
+              .homeBg{position:absolute;inset:0;z-index:0;background: linear-gradient(rgba(3,6,9,0.45), rgba(3,6,9,0.25)), url('/F1.jpg') center/cover no-repeat;transform-origin:center center;box-shadow: inset 0 0 120px rgba(0,0,0,0.45);filter:drop-shadow(0 24px 80px rgba(0,0,0,0.65));animation: bgFloat 12s ease-in-out infinite}
+
+              @keyframes bgFloat{
+                0%{transform: translateY(0px) rotateX(0.4deg) scale(1)}
+                50%{transform: translateY(-6px) rotateX(0.8deg) scale(1.01)}
+                100%{transform: translateY(0px) rotateX(0.4deg) scale(1)}
+              }
+
+              @media (max-width:720px){
+                .homeBg{background-position: center top}
+              }
+            `}</style>
 
             <h1
               style={{
