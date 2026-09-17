@@ -39,10 +39,12 @@ function App() {
             boxSizing: "border-box",
           }}
         >
+          <div className="homeBg" />
+
           <div
             style={{
               width: "100%",
-              maxWidth: "1000px",
+              maxWidth: "1200px",
               position: "relative",
               zIndex: 1,
             }}
@@ -72,27 +74,44 @@ function App() {
               }}
             />
 
-            {/* Full-bleed bright background (electric blue → teal) for HOME */}
-            <div className="homeColorBg" />
+            {/* Car image element with subtle 3D float/tilt/glow */}
+            <div className="heroImageWrapper">
+              <img
+                src="/F1.jpg"
+                alt="Formula Student electric race car"
+                className="heroImage"
+              />
+            </div>
 
             <style>{`
-              .homeColorBg{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,#0066ff 0%,#00d2a8 100%);filter:contrast(1.05) saturate(1.1);box-shadow:inset 0 0 120px rgba(0,0,0,0.25)}
-              /* subtle slow movement to add depth */
-              .homeColorBg{animation:colorFloat 14s ease-in-out infinite}
-              @keyframes colorFloat{0%{transform:translateY(0px) scale(1)}50%{transform:translateY(-6px) scale(1.01)}100%{transform:translateY(0px) scale(1)}}
+              .heroImageWrapper{display:flex;justify-content:center;margin:18px 0 28px;perspective:1200px}
+              .heroImage{width:760px;max-width:88vw;height:auto;border-radius:8px;box-shadow:0 30px 70px rgba(0,0,0,0.6),0 0 40px rgba(0,194,255,0.06);filter:drop-shadow(0 12px 30px rgba(0,194,255,0.08));transform-origin:center center;transition:transform 0.5s ease}
+              .heroImage{animation:floatTilt 7s ease-in-out infinite}
 
-              @media (max-width:720px){
-                .homeColorBg{background:linear-gradient(180deg,#0066ff 0%,#00d2a8 100%)}
+              @keyframes floatTilt{
+                0%{transform: translateY(0px) rotateX(3deg) rotateY(-2deg)}
+                25%{transform: translateY(-10px) rotateX(4deg) rotateY(1deg)}
+                50%{transform: translateY(-16px) rotateX(3deg) rotateY(2deg)}
+                75%{transform: translateY(-10px) rotateX(4deg) rotateY(1deg)}
+                100%{transform: translateY(0px) rotateX(3deg) rotateY(-2deg)}
+              }
+
+              @media (max-width: 720px){
+                .heroImage{width:92vw;border-radius:6px}
               }
             `}</style>
 
             <h1
               style={{
                 margin: "0",
-                fontSize: "clamp(42px, 7vw, 88px)",
+                fontSize: "clamp(64px, 9vw, 120px)",
                 fontWeight: "700",
                 letterSpacing: "10px",
-                lineHeight: "1",
+                lineHeight: "0.95",
+                textAlign: "left",
+                color: "#ffffff",
+                textShadow: "0 6px 30px rgba(0,0,0,0.7), 0 0 18px rgba(0,194,255,0.08)",
+                marginLeft: "2vw",
               }}
             >
               VELYXION
@@ -146,6 +165,27 @@ function App() {
             >
               ↓ &nbsp; SCROLL TO EXPLORE
             </div>
+
+            {/* Right side quote */}
+            <div className="homeSideQuote">
+              Top performers require
+              <br /> more than perfect conditions
+              <br /> especially just luck
+            </div>
+
+            {/* Small center caption */}
+            <div className="homeSmallCaption">Experience the new CR - X in top form with increased race track performance</div>
+
+            <style>{`
+              .homeBg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg, rgba(3,6,9,0.35), rgba(3,6,9,0.45)), url('/F1.jpg') center/cover no-repeat;filter:contrast(1.02) saturate(1.05);}
+              .homeSideQuote{position:absolute;right:4vw;top:30%;color:#ffffff;text-align:right;font-size:clamp(14px,2.6vw,28px);line-height:1.15;font-weight:700;text-shadow:0 6px 20px rgba(0,0,0,0.6);max-width:340px}
+              .homeSmallCaption{position:relative;margin-top:28px;color:#d8e1e6;font-size:14px;text-align:center;opacity:0.95}
+
+              @media (max-width:900px){
+                .homeSideQuote{position:relative;right:auto;top:auto;text-align:center;margin-top:18px}
+                h1{font-size:clamp(44px,9vw,72px);text-align:center;margin-left:0}
+              }
+            `}</style>
           </div>
         </section>
 
