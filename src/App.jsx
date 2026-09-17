@@ -39,8 +39,6 @@ function App() {
             boxSizing: "border-box",
           }}
         >
-          <div className="homeBg" />
-
           <div
             style={{
               width: "100%",
@@ -74,17 +72,30 @@ function App() {
               }}
             />
 
-            <style>{`
-              .homeBg{position:absolute;inset:0;z-index:0;background: linear-gradient(rgba(3,6,9,0.45), rgba(3,6,9,0.25)), url('/F1.jpg') center/cover no-repeat;transform-origin:center center;box-shadow: inset 0 0 120px rgba(0,0,0,0.45);filter:drop-shadow(0 24px 80px rgba(0,0,0,0.65));animation: bgFloat 12s ease-in-out infinite}
+            {/* Car image element with subtle 3D float/tilt/glow */}
+            <div className="heroImageWrapper">
+              <img
+                src="/F1.jpg"
+                alt="Formula Student electric race car"
+                className="heroImage"
+              />
+            </div>
 
-              @keyframes bgFloat{
-                0%{transform: translateY(0px) rotateX(0.4deg) scale(1)}
-                50%{transform: translateY(-6px) rotateX(0.8deg) scale(1.01)}
-                100%{transform: translateY(0px) rotateX(0.4deg) scale(1)}
+            <style>{`
+              .heroImageWrapper{display:flex;justify-content:center;margin:18px 0 28px;perspective:1200px}
+              .heroImage{width:760px;max-width:88vw;height:auto;border-radius:8px;box-shadow:0 30px 70px rgba(0,0,0,0.6),0 0 40px rgba(0,194,255,0.06);filter:drop-shadow(0 12px 30px rgba(0,194,255,0.08));transform-origin:center center;transition:transform 0.5s ease}
+              .heroImage{animation:floatTilt 7s ease-in-out infinite}
+
+              @keyframes floatTilt{
+                0%{transform: translateY(0px) rotateX(3deg) rotateY(-2deg)}
+                25%{transform: translateY(-10px) rotateX(4deg) rotateY(1deg)}
+                50%{transform: translateY(-16px) rotateX(3deg) rotateY(2deg)}
+                75%{transform: translateY(-10px) rotateX(4deg) rotateY(1deg)}
+                100%{transform: translateY(0px) rotateX(3deg) rotateY(-2deg)}
               }
 
-              @media (max-width:720px){
-                .homeBg{background-position: center top}
+              @media (max-width: 720px){
+                .heroImage{width:92vw;border-radius:6px}
               }
             `}</style>
 
