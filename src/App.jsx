@@ -60,8 +60,7 @@ function App() {
 
             <div className="heroRight">
               <div className="carWrap">
-                <div className="carGlow" />
-                <img src="/F1.jpg" alt="VELYXION car" className="heroCar"/>
+                <div className="heroVisual" aria-hidden="true" />
               </div>
             </div>
 
@@ -89,8 +88,8 @@ function App() {
             .heroCTA:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(0,194,255,0.22)}
 
             .carWrap{position:relative;width:760px;max-width:88vw;display:flex;align-items:center;justify-content:center}
-            .heroCar{width:100%;height:auto;border-radius:10px;box-shadow:0 30px 80px rgba(2,10,18,0.5);transform-origin:center;animation:carEntrance 1s cubic-bezier(.2,.9,.2,1) both,carFloat 6s ease-in-out infinite}
-            .carGlow{position:absolute;inset:20% -10% -10% -10%;background:radial-gradient(40% 60% at 50% 40%, rgba(0,194,255,0.18), rgba(0,194,255,0.06) 25%, transparent 60%);filter:blur(18px);pointer-events:none}
+            .heroVisual{width:100%;height:360px;border-radius:12px;background:linear-gradient(180deg,#031018, #0b1220);box-shadow:0 30px 80px rgba(2,10,18,0.5);position:relative;overflow:hidden;transform-origin:center;animation:carEntrance 1s cubic-bezier(.2,.9,.2,1) both,carFloat 6s ease-in-out infinite}
+            .heroVisual::after{content:"";position:absolute;inset:0;background:radial-gradient(40% 60% at 50% 40%, rgba(0,194,255,0.12), rgba(0,194,255,0.04) 25%, transparent 60%);filter:blur(18px);pointer-events:none}
 
             @keyframes carEntrance{from{transform:translateY(40px) scale(.98);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
             @keyframes carFloat{0%{transform:translateY(0px)}50%{transform:translateY(-8px)}100%{transform:translateY(0px)}}
