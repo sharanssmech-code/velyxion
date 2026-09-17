@@ -21,7 +21,7 @@ function App() {
         style={{
           position: "relative",
           zIndex: 1,
-          color: "#ffffff",
+          color: "#0b0b0b",
           fontFamily: "Arial, sans-serif",
         }}
       >
@@ -109,8 +109,8 @@ function App() {
                 letterSpacing: "10px",
                 lineHeight: "0.95",
                 textAlign: "left",
-                color: "#ffffff",
-                textShadow: "0 6px 30px rgba(0,0,0,0.7), 0 0 18px rgba(0,194,255,0.08)",
+                color: "#0b0b0b",
+                textShadow: "0 6px 18px rgba(0,0,0,0.12)",
                 marginLeft: "2vw",
               }}
             >
@@ -123,7 +123,7 @@ function App() {
                 fontSize: "clamp(14px, 2vw, 20px)",
                 letterSpacing: "3px",
                 lineHeight: "1.8",
-                color: "#d8e1e6",
+                color: "#263238",
               }}
             >
               ELECTRIC PERFORMANCE,
@@ -145,7 +145,7 @@ function App() {
               style={{
                 maxWidth: "620px",
                 margin: "0 auto",
-                color: "#8e9ba3",
+                color: "#475057",
                 fontSize: "14px",
                 lineHeight: "1.9",
                 letterSpacing: "1px",
@@ -178,8 +178,8 @@ function App() {
 
             <style>{`
               .homeBg{position:absolute;inset:0;z-index:0;background:#ffffff;filter:contrast(1.02) saturate(1.05);}
-              .homeSideQuote{position:absolute;right:4vw;top:30%;color:#ffffff;text-align:right;font-size:clamp(14px,2.6vw,28px);line-height:1.15;font-weight:700;text-shadow:0 6px 20px rgba(0,0,0,0.6);max-width:340px}
-              .homeSmallCaption{position:relative;margin-top:28px;color:#d8e1e6;font-size:14px;text-align:center;opacity:0.95}
+              .homeSideQuote{position:absolute;right:4vw;top:30%;color:#0b0b0b;text-align:right;font-size:clamp(14px,2.6vw,28px);line-height:1.15;font-weight:700;text-shadow:0 6px 12px rgba(0,0,0,0.08);max-width:340px}
+              .homeSmallCaption{position:relative;margin-top:28px;color:#263238;font-size:14px;text-align:center;opacity:0.95}
 
               @media (max-width:900px){
                 .homeSideQuote{position:relative;right:auto;top:auto;text-align:center;margin-top:18px}
