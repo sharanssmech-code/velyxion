@@ -96,6 +96,10 @@ function TeamSection() {
             <EngineeringLeadCard number="02" category="DESIGN" role="DESIGN LEAD" name="KARTHI KUMAR S" description="Leads vehicle design development, CAD coordination, component design, and design integration." photo="/team/karthi.JPG" alt="Karthi Kumar S - Design Lead" />
             <EngineeringLeadCard number="03" category="ELECTRICAL" role="ELECTRICAL LEAD" name="HARIHARAN R" description="Leads electrical system development, electrical integration, wiring, and system coordination." photo="/team/hariharan.JPG" alt="Hariharan R - Electrical Lead" />
             <EngineeringLeadCard number="04" category="EMBEDDED" role="EMBEDDED LEAD" name="KAVIN V" description="Leads embedded systems development, electronic control integration, software coordination, and vehicle data systems." photo="/team/kavin.JPG" alt="Kavin V - Embedded Lead" />
+            <EngineeringLeadCard number="05" category="SUSPENSION & STEERING" role="SUSPENSION & STEERING LEAD" name="NITHESH M" description="Responsible for suspension geometry, steering systems, setup development, and mechanical integration for vehicle handling." photo="/team/nithesh.JPG" alt="Nithesh M - Suspension & Steering Lead" />
+            <EngineeringLeadCard number="06" category="DRIVETRAIN & TRANSMISSION" role="DRIVETRAIN & TRANSMISSION ENGINEER" name="NAME TO BE ADDED" description="Responsible for drivetrain integration, transmission components, mechanical power delivery, and coordination between the motor and driven wheels." photo="/team/drivetrain.JPG" alt="Drivetrain & Transmission Engineer" />
+            <EngineeringLeadCard number="07" category="PROJECT & FINANCE" role="PROJECT & FINANCE MANAGER" name="SHARAN S" description="Responsible for project coordination, planning, budgeting, documentation, procurement, and overall team organization." photo="/team/sharan.JPG" alt="Sharan S - Project & Finance Manager" />
+            <EngineeringLeadCard number="08" category="BRAKING & VEHICLE DYNAMICS" role="BRAKING & VEHICLE DYNAMICS LEAD" name="ARULJOTHI R" description="Responsible for braking systems, vehicle dynamics analysis, setup optimization, and coordination of braking performance with the chassis and suspension systems." photo="/team/aruljothi.JPG" alt="Aruljothi R - Braking & Vehicle Dynamics Lead" />
           </div>
         </section>
       </div>
@@ -108,7 +112,7 @@ function EngineeringLeadCard({ number, category, role, name, description, photo,
 
   return (
     <article className="engineeringLeadCard">
-      {imageFailed ? (
+      {!photo || imageFailed ? (
         <div className="engineeringLeadPlaceholder" aria-label={`${role} role placeholder`}>{role}</div>
       ) : (
         <div className="engineeringLeadPlaceholder">
@@ -125,7 +129,7 @@ function EngineeringLeadCard({ number, category, role, name, description, photo,
         <p className="engineeringLeadCategory">{category}</p>
         <h4 className="engineeringLeadRole">{role}</h4>
         <div className="engineeringLeadAccent" />
-        <p className="engineeringLeadName">{name}</p>
+        {name && <p className="engineeringLeadName">{name}</p>}
         <p className="engineeringLeadDescription">{description}</p>
       </div>
     </article>
