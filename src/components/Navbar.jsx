@@ -12,9 +12,9 @@ function Navbar() {
         alignItems: "center",
         justifyContent: "space-between",
         zIndex: 10,
-        background: "rgba(3, 6, 9, 0.55)",
+        background: "rgba(255, 255, 255, 0.74)",
         backdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(0, 194, 255, 0.12)",
+        borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
       }}
     >
       {/* Brand */}
@@ -40,6 +40,7 @@ function Navbar() {
             fontSize: "16px",
             fontWeight: "700",
             letterSpacing: "3px",
+            color: "#111111",
           }}
         >
           VELYXION
@@ -72,7 +73,8 @@ function Navbar() {
       </div>
 
       {/* Contact button */}
-      <button
+      <a
+        href="#contact"
         style={{
           background: "transparent",
           color: "#00c2ff",
@@ -81,16 +83,19 @@ function Navbar() {
           fontSize: "11px",
           letterSpacing: "2px",
           cursor: "pointer",
+          textDecoration: "none",
+          display: "inline-block",
+          transition: "all 0.3s ease",
         }}
       >
         CONTACT
-      </button>
+      </a>
     </nav>
   );
 }
 
 const linkStyle = {
-  color: "#aab6bd",
+  color: "#111111",
   textDecoration: "none",
   fontSize: "10px",
   letterSpacing: "2px",

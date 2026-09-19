@@ -35,7 +35,7 @@ function PerformanceSection() {
         <p
           style={{
             maxWidth: "700px",
-            color: "#8e9ba3",
+            color: "#4b5563",
             lineHeight: "1.8",
             fontSize: "15px",
           }}
@@ -99,8 +99,9 @@ const metricStyle = {
   padding: "30px",
   minHeight: "190px",
   boxSizing: "border-box",
-  background: "rgba(5, 12, 16, 0.6)",
-  border: "1px solid rgba(0, 194, 255, 0.15)",
+  background: "#f8fafc",
+  border: "1px solid rgba(0, 0, 0, 0.10)",
+  boxShadow: "0 10px 30px rgba(0, 0, 0, 0.04)",
   backdropFilter: "blur(10px)",
 };
 
@@ -115,7 +116,7 @@ const valueStyle = {
   fontSize: "42px",
   fontWeight: "600",
   letterSpacing: "3px",
-  color: "#ffffff",
+  color: "#111111",
 };
 
 const labelStyle = {
@@ -127,7 +128,7 @@ const labelStyle = {
 
 const descriptionStyle = {
   margin: "14px 0 0",
-  color: "#718089",
+  color: "#4b5563",
   fontSize: "12px",
   lineHeight: "1.6",
 };
