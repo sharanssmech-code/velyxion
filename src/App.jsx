@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import ThreeBackground from "./components/ThreeBackground";
 import Navbar from "./components/Navbar";
@@ -105,9 +105,14 @@ const technologySystems = [
 
 const vehicleSpecifications = [
   ["VEHICLE MASS", "330 kg"],
-  ["WHEELBASE", "DATA TO BE ADDED"],
-  ["TRACK WIDTH", "DATA TO BE ADDED"],
-  ["TYRE SIZE", "DATA TO BE ADDED"],
+  ["WHEELBASE", "1580 mm"],
+  ["FRONT TRACK WIDTH", "1200 mm"],
+  ["REAR TRACK WIDTH", "1180 mm"],
+  ["ALLOY RIM", "10 x 7 inches"],
+  ["TYRE", "BKT GF305"],
+  ["TYRE SIZE", "205/50-10"],
+  ["TYRE CONSTRUCTION", "4 ply"],
+  ["QUANTITY", "4 tyres"],
 ];
 
 const technologyLabelPositions = {
@@ -118,6 +123,161 @@ const technologyLabelPositions = {
   "05": "Dynamics",
   "06": "Chassis",
 };
+
+function SpeedometerHUD() {
+  const gaugeRef = useRef(null);
+  const interactionIndexRef = useRef(0);
+  const pulseTimeoutRef = useRef(null);
+  const [speed, setSpeed] = useState(0);
+  const [targetSpeed, setTargetSpeed] = useState(128);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isPulseActive, setIsPulseActive] = useState(false);
+  const maxSpeed = 180;
+  const progress = speed / maxSpeed;
+  const startAngle = -135;
+  const endAngle = 135;
+  const needleAngle = startAngle + (endAngle - startAngle) * progress;
+  const gaugeRadius = 122;
+  const tickMarks = Array.from({ length: 25 }, (_, index) => {
+    const value = index * 7.5;
+    const angle = startAngle + (endAngle - startAngle) * (value / maxSpeed);
+    const isMajor = value % 30 === 0;
+    const radians = (angle * Math.PI) / 180;
+    const outerRadius = 139;
+    const innerRadius = isMajor ? 124 : 130;
+
+    return {
+      value,
+      isMajor,
+      x1: 160 + Math.cos(radians) * innerRadius,
+      y1: 160 + Math.sin(radians) * innerRadius,
+      x2: 160 + Math.cos(radians) * outerRadius,
+      y2: 160 + Math.sin(radians) * outerRadius,
+    };
+  });
+  const speedLabels = [0, 30, 60, 90, 120, 150, 180];
+
+  useEffect(() => {
+    const element = gaugeRef.current;
+    if (!element) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return undefined;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      setSpeed(targetSpeed);
+      return undefined;
+    }
+
+    let frameId;
+    const startTime = performance.now();
+    const duration = 1800;
+
+    const animate = (now) => {
+      const elapsed = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - elapsed, 3);
+      setSpeed(Math.round(targetSpeed * eased));
+      if (elapsed < 1) frameId = requestAnimationFrame(animate);
+    };
+
+    frameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frameId);
+  }, [isVisible, targetSpeed]);
+
+  useEffect(() => () => {
+    if (pulseTimeoutRef.current) window.clearTimeout(pulseTimeoutRef.current);
+  }, []);
+
+  const handleSpeedometerInteraction = () => {
+    const readings = [142, 117, 156, 94, 168, 128];
+    const nextReading = readings[interactionIndexRef.current % readings.length];
+    interactionIndexRef.current += 1;
+    setTargetSpeed(nextReading);
+    setIsPulseActive(true);
+    if (pulseTimeoutRef.current) window.clearTimeout(pulseTimeoutRef.current);
+    pulseTimeoutRef.current = window.setTimeout(() => setIsPulseActive(false), 420);
+  };
+
+  const handleSpeedometerKeyDown = (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleSpeedometerInteraction();
+    }
+  };
+
+  return (
+    <div className="speedometerPanel" ref={gaugeRef}>
+      <div className="speedometerHudTag">EV / INSTRUMENTATION</div>
+      <div
+        className={`speedometerFrame${isPulseActive ? " isPulseActive" : ""}`}
+        role="button"
+        tabIndex={0}
+        aria-label={`Interactive visual speedometer showing ${speed} kilometres per hour`}
+        onPointerDown={handleSpeedometerInteraction}
+        onKeyDown={handleSpeedometerKeyDown}
+      >
+        <div className="speedometerStreak speedometerStreakOne" aria-hidden="true" />
+        <div className="speedometerStreak speedometerStreakTwo" aria-hidden="true" />
+        <svg className="speedometerSvg" viewBox="0 0 320 320" role="img" aria-label="Speedometer visual display">
+          <defs>
+            <radialGradient id="speedometerFace" cx="50%" cy="48%" r="60%">
+              <stop offset="0%" stopColor="#18252d" />
+              <stop offset="72%" stopColor="#0b1115" />
+              <stop offset="100%" stopColor="#05070a" />
+            </radialGradient>
+            <filter id="speedometerGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+          <circle className="speedometerFace" cx="160" cy="160" r="154" />
+          <circle className="speedometerGridRing" cx="160" cy="160" r="147" />
+          <circle className="speedometerRedZone" cx="160" cy="160" r="139" pathLength="100" strokeDasharray="17 83" strokeDashoffset="-79" />
+          <circle className="speedometerArcTrack" cx="160" cy="160" r={gaugeRadius} pathLength="100" />
+          <circle className="speedometerArcProgress" cx="160" cy="160" r={gaugeRadius} pathLength="100" strokeDashoffset={75 * (1 - progress)} filter="url(#speedometerGlow)" />
+          <g className="speedometerTicks">
+            {tickMarks.map((tick) => (
+              <line key={tick.value} className={tick.isMajor ? "speedometerTick speedometerTickMajor" : "speedometerTick"} x1={tick.x1} y1={tick.y1} x2={tick.x2} y2={tick.y2} />
+            ))}
+          </g>
+          <g className="speedometerLabels">
+            {speedLabels.map((value) => {
+              const angle = startAngle + (endAngle - startAngle) * (value / maxSpeed);
+              const radians = (angle * Math.PI) / 180;
+              const radius = 105;
+              return <text key={value} x={160 + Math.cos(radians) * radius} y={164 + Math.sin(radians) * radius} textAnchor="middle">{value}</text>;
+            })}
+          </g>
+          <g className="speedometerNeedle" style={{ transform: `rotate(${needleAngle}deg)` }}>
+            <line x1="160" y1="160" x2="160" y2="45" />
+            <circle cx="160" cy="160" r="8" />
+          </g>
+          <text className="speedometerUnit" x="160" y="142" textAnchor="middle">KM/H</text>
+          <text className="speedometerValue" x="160" y="185" textAnchor="middle">{speed}</text>
+          <text className="speedometerMode" x="160" y="211" textAnchor="middle">DIGITAL RACE DISPLAY</text>
+        </svg>
+        <span className="speedometerCorner speedometerCornerTop" aria-hidden="true" />
+        <span className="speedometerCorner speedometerCornerBottom" aria-hidden="true" />
+      </div>
+      <div className="speedometerCaption">OUR TOP SPEED</div>
+    </div>
+  );
+}
 
 function App() {
   const [carTilt, setCarTilt] = useState({ x: 0, y: 0 });
@@ -655,9 +815,8 @@ function App() {
               letter-spacing: 2px;
             }
             .performanceData,
-            .engineeringProfile { min-width: 0; padding-top: 12px; }
-            .performanceDataHeader,
-            .engineeringProfileHeader { margin-bottom: 28px; }
+            .speedometerPanel { min-width: 0; padding-top: 12px; }
+            .performanceDataHeader { margin-bottom: 28px; }
             .dataEyebrow {
               margin: 0 0 11px;
               color: #00c2ff;
@@ -666,8 +825,7 @@ function App() {
               letter-spacing: 2.5px;
               text-transform: uppercase;
             }
-            .dataSectionTitle,
-            .engineeringProfileTitle {
+            .dataSectionTitle {
               margin: 0;
               color: #ffffff;
               font-size: clamp(22px, 2.7vw, 38px);
@@ -682,8 +840,7 @@ function App() {
               border-top: 1px solid rgba(166, 190, 204, 0.34);
               border-left: 1px solid rgba(166, 190, 204, 0.34);
             }
-            .performanceDataBlock,
-            .engineeringEntry {
+            .performanceDataBlock {
               position: relative;
               opacity: 0;
               transform: translateY(16px);
@@ -750,49 +907,86 @@ function App() {
             }
             .performanceDataBlock:hover .performanceDataValue { color: #eafdff; }
             .performanceDataBlock:hover .performanceDataUnit { text-shadow: 0 0 12px rgba(0, 194, 255, 0.72); }
-            .engineeringProfile { padding-left: clamp(0px, 1vw, 16px); border-left: 1px solid rgba(166, 190, 204, 0.34); }
-            .engineeringProfileHeader,
-            .engineeringEntry { padding-left: 28px; }
-            .engineeringProfileTitle { max-width: 360px; }
-            .engineeringEntry {
-              padding-top: 22px;
-              padding-bottom: 22px;
-              border-top: 1px solid rgba(166, 190, 204, 0.34);
+            .speedometerPanel {
+              position: relative;
+              min-width: 0;
+              min-height: 470px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              padding: 22px 0 0;
+              overflow: hidden;
             }
-            .engineeringEntry:last-child { border-bottom: 1px solid rgba(166, 190, 204, 0.34); }
-            .engineeringEntry::before {
+            .speedometerHudTag {
+              align-self: flex-end;
+              margin: 0 8px 9px 0;
+              color: rgba(0, 194, 255, 0.66);
+              font-size: 9px;
+              font-weight: 800;
+              letter-spacing: 2px;
+            }
+            .speedometerFrame {
+              position: relative;
+              width: min(100%, 470px);
+              aspect-ratio: 1;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border: 1px solid rgba(0, 194, 255, 0.42);
+              background: linear-gradient(rgba(0, 194, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 194, 255, 0.035) 1px, transparent 1px), #080d11;
+              background-size: 28px 28px;
+              box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 0 34px rgba(0, 194, 255, 0.08);
+              transition: border-color 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+              cursor: pointer;
+              touch-action: manipulation;
+              user-select: none;
+            }
+            .speedometerFrame:focus-visible { outline: 2px solid rgba(0, 194, 255, 0.82); outline-offset: 5px; }
+            .speedometerFrame:hover {
+              border-color: rgba(0, 194, 255, 0.72);
+              box-shadow: inset 0 0 0 1px rgba(0, 194, 255, 0.08), 0 0 48px rgba(0, 194, 255, 0.15);
+              filter: brightness(1.08);
+            }
+            .speedometerFrame.isPulseActive { animation: speedometerInteractionPulse 0.42s ease-out; }
+            .speedometerFrame::before,
+            .speedometerFrame::after {
               content: "";
               position: absolute;
-              top: -1px;
-              left: 0;
               width: 30px;
-              height: 1px;
-              background: #00c2ff;
-              transition: width 0.25s ease, box-shadow 0.25s ease;
+              height: 30px;
+              border-color: rgba(0, 194, 255, 0.72);
+              border-style: solid;
+              pointer-events: none;
             }
-            .engineeringEntry:nth-child(2) { animation-delay: 0.35s; }
-            .engineeringEntry:nth-child(3) { animation-delay: 0.5s; }
-            .engineeringEntry:nth-child(4) { animation-delay: 0.65s; }
-            .engineeringEntry:hover::before { width: 62px; box-shadow: 0 0 12px rgba(0, 194, 255, 0.56); }
-            .engineeringEntryHeading {
-              margin: 0 0 13px;
-              color: #00c2ff;
-              font-size: 11px;
-              font-weight: 800;
-              letter-spacing: 1.8px;
-              text-transform: uppercase;
-            }
-            .engineeringEntryList {
-              display: grid;
-              gap: 7px;
-              margin: 0;
-              padding: 0;
-              list-style: none;
-              color: rgba(240, 246, 249, 0.78);
-              font-size: 13px;
-              line-height: 1.45;
-            }
-            .engineeringEntryList li::before { content: "—"; margin-right: 8px; color: rgba(0, 194, 255, 0.68); }
+            .speedometerFrame::before { top: 13px; left: 13px; border-width: 1px 0 0 1px; }
+            .speedometerFrame::after { right: 13px; bottom: 13px; border-width: 0 1px 1px 0; }
+            .speedometerSvg { width: 96%; height: 96%; overflow: visible; }
+            .speedometerFace { fill: url(#speedometerFace); stroke: rgba(122, 161, 177, 0.22); stroke-width: 1; }
+            .speedometerGridRing { fill: none; stroke: rgba(0, 194, 255, 0.1); stroke-width: 1; stroke-dasharray: 1 7; }
+            .speedometerRedZone { fill: none; stroke: rgba(255, 70, 62, 0.42); stroke-width: 4; stroke-linecap: butt; transform: rotate(-135deg); transform-origin: 160px 160px; }
+            .speedometerArcTrack,
+            .speedometerArcProgress { fill: none; stroke-width: 5; stroke-linecap: round; transform: rotate(-135deg); transform-origin: 160px 160px; }
+            .speedometerArcTrack { stroke: rgba(131, 173, 190, 0.17); stroke-dasharray: 75 25; stroke-dashoffset: 0; }
+            .speedometerArcProgress { stroke: #00c2ff; stroke-dasharray: 75 25; transition: stroke-dashoffset 0.08s linear; }
+            .speedometerTick { stroke: rgba(168, 199, 211, 0.38); stroke-width: 1; }
+            .speedometerTickMajor { stroke: rgba(0, 194, 255, 0.8); stroke-width: 2; }
+            .speedometerLabels { fill: rgba(224, 238, 244, 0.74); font-size: 9px; font-weight: 800; letter-spacing: 1px; }
+            .speedometerNeedle { transform-origin: 160px 160px; transition: transform 0.08s linear; }
+            .speedometerNeedle line { stroke: #8cecff; stroke-width: 2; filter: url(#speedometerGlow); }
+            .speedometerNeedle circle { fill: #061016; stroke: #00c2ff; stroke-width: 3; filter: url(#speedometerGlow); }
+            .speedometerUnit { fill: rgba(0, 194, 255, 0.84); font-size: 11px; font-weight: 800; letter-spacing: 3px; }
+            .speedometerValue { fill: #ffffff; font-size: 48px; font-weight: 800; letter-spacing: -2px; filter: url(#speedometerGlow); }
+            .speedometerMode { fill: rgba(176, 201, 211, 0.52); font-size: 6px; font-weight: 800; letter-spacing: 2px; }
+            .speedometerCaption { margin-top: 15px; color: #00c2ff; font-size: 11px; font-weight: 800; letter-spacing: 3px; text-shadow: 0 0 12px rgba(0, 194, 255, 0.35); }
+            .speedometerCorner { position: absolute; width: 8px; height: 8px; border-color: rgba(0, 194, 255, 0.76); border-style: solid; }
+            .speedometerCornerTop { top: 28px; right: 28px; border-width: 1px 1px 0 0; }
+            .speedometerCornerBottom { bottom: 28px; left: 28px; border-width: 0 0 1px 1px; }
+            .speedometerStreak { position: absolute; left: 8%; width: 84%; height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 194, 255, 0.44), transparent); opacity: 0.4; animation: speedometerStreakMove 5s ease-in-out infinite; pointer-events: none; }
+            .speedometerStreakOne { top: 35%; }
+            .speedometerStreakTwo { top: 68%; animation-delay: 1.8s; opacity: 0.25; }
+            @keyframes speedometerStreakMove { 0%, 100% { transform: translateX(-8%); opacity: 0.16; } 50% { transform: translateX(8%); opacity: 0.5; } }
+            @keyframes speedometerInteractionPulse { 0% { box-shadow: inset 0 0 0 1px rgba(0, 194, 255, 0.08), 0 0 34px rgba(0, 194, 255, 0.08); } 45% { box-shadow: inset 0 0 0 1px rgba(0, 194, 255, 0.2), 0 0 58px rgba(0, 194, 255, 0.28); } 100% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 0 34px rgba(0, 194, 255, 0.08); } }
             @keyframes carSectionFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
             @keyframes carSectionHeadingIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
             @keyframes carVisualReveal { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
@@ -803,7 +997,7 @@ function App() {
               .carSectionIntro { text-align: left; }
               .carSectionDescription { max-width: 720px; }
               .carDataArea { grid-template-columns: 1fr; gap: 58px; }
-              .engineeringProfile { padding-left: 0; border-left: 0; }
+              .speedometerPanel { min-height: 430px; }
             }
             @media (max-width: 620px) {
               .carSectionVisualWrap { min-height: 340px; }
@@ -812,8 +1006,9 @@ function App() {
               .carDataArea::before { top: 16px; right: 18px; font-size: 8px; }
               .performanceDataGrid { grid-template-columns: 1fr; }
               .performanceDataBlock { min-height: 144px; padding: 19px 18px 20px; }
-              .engineeringProfileHeader,
-              .engineeringEntry { padding-left: 18px; }
+              .speedometerPanel { min-height: 390px; padding-top: 10px; }
+              .speedometerHudTag { align-self: center; margin-right: 0; }
+              .speedometerFrame { width: min(100%, 380px); }
               .carVisualTag { font-size: 8px; letter-spacing: 1.4px; }
               .carSectionHeading { letter-spacing: 1px; }
             }
@@ -822,14 +1017,18 @@ function App() {
               .carSectionHeading,
               .carVisualFrame,
               .performanceDataBlock,
-              .engineeringEntry,
               .carVisualFrame .carConnector,
               .carNode { animation: none !important; }
               .carVisualMedia,
               .performanceDataBlock,
               .performanceDataValue,
               .performanceDataUnit,
-              .engineeringEntry::before { transition: none !important; }
+              .speedometerFrame,
+              .speedometerArcProgress,
+              .speedometerNeedle,
+              .speedometerFrame { transition: none !important; }
+              .speedometerStreak { animation: none !important; }
+              .speedometerFrame.isPulseActive { animation: none !important; }
             }
           `}</style>
 
@@ -917,42 +1116,7 @@ function App() {
               </div>
             </div>
 
-            <div className="engineeringProfile">
-              <div className="engineeringProfileHeader">
-                <div className="dataEyebrow">VEHICLE ARCHITECTURE</div>
-                <h3 className="engineeringProfileTitle">BUILT AROUND ELECTRIC PROPULSION.</h3>
-              </div>
-
-              <div className="engineeringEntry">
-                <h4 className="engineeringEntryHeading">01 / POWERTRAIN</h4>
-                <ul className="engineeringEntryList">
-                  <li>IPM electric motor</li>
-                  <li>15 kW, 96 V motor system</li>
-                  <li>25 kW peak power</li>
-                  <li>130 Nm peak torque</li>
-                  <li>Single motor configuration</li>
-                </ul>
-              </div>
-              <div className="engineeringEntry">
-                <h4 className="engineeringEntryHeading">02 / ENERGY</h4>
-                <ul className="engineeringEntryList">
-                  <li>Lithium Ion Phosphate battery</li>
-                  <li>96 V nominal voltage</li>
-                  <li>75 Ah capacity</li>
-                  <li>7.2 kWh energy</li>
-                  <li>Cylindrical cells</li>
-                </ul>
-              </div>
-              <div className="engineeringEntry">
-                <h4 className="engineeringEntryHeading">03 / CONTROL</h4>
-                <ul className="engineeringEntryList">
-                  <li>15 kW, 96 V IPM inverter</li>
-                  <li>300 A maximum current</li>
-                  <li>JK BMS</li>
-                  <li>BSPD + IMD protection systems</li>
-                </ul>
-              </div>
-            </div>
+            <SpeedometerHUD />
           </div>
         </section>
 

@@ -25,13 +25,28 @@ function TeamSection() {
           Meet the student leaders behind VELYXION, driving the project through collaboration, engineering, and continuous development.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "28px" }}>
+        <div className="mentorLeadership">
+          <div style={cardStyle}>
+            <div className="leadershipPhotoFrame" style={photoFrameStyle}>
+              <img className="leadershipPhoto" src="/team/mentor.jpg" alt="Mr. S. Gowtham - Mentor" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+            </div>
+            <div style={contentStyle}>
+              <div style={numberStyle}>03.01 / TEAM LEADERSHIP</div>
+              <h3 style={roleStyle}>MENTOR</h3>
+              <div style={accentLineStyle} />
+              <div style={nameStyle}>Mr. S. Gowtham</div>
+              <p style={descriptionStyle}>Department of Mechanical</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="leadershipPair">
           <div style={cardStyle}>
             <div className="leadershipPhotoFrame" style={photoFrameStyle}>
               <img className="leadershipPhoto" src="/team/captain.JPG" alt="Captain" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
             </div>
             <div style={contentStyle}>
-              <div style={numberStyle}>03.01 / TEAM LEADERSHIP</div>
+              <div style={numberStyle}>03.02 / TEAM LEADERSHIP</div>
               <h3 style={roleStyle}>CAPTAIN</h3>
               <div style={accentLineStyle} />
               <div style={nameStyle}>THIPPUSULTHAN. A</div>
@@ -44,7 +59,7 @@ function TeamSection() {
               <img className="leadershipPhoto" src="/team/co-captain.JPG" alt="Co-captain" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
             </div>
             <div style={contentStyle}>
-              <div style={numberStyle}>03.02 / TEAM LEADERSHIP</div>
+              <div style={numberStyle}>03.03 / TEAM LEADERSHIP</div>
               <h3 style={roleStyle}>CO-CAPTAIN</h3>
               <div style={accentLineStyle} />
               <div style={nameStyle}>ASWIN. VA</div>
@@ -61,6 +76,8 @@ function TeamSection() {
           .leadershipPhoto { transition: transform 0.3s ease; }
           .leadershipPhotoFrame:hover .leadershipPhoto { transform: scale(1.02); }
           .leadershipPhotoFrame:hover::before, .leadershipPhotoFrame:hover::after { border-color: #00c2ff; }
+          .mentorLeadership { width: min(50%, 540px); margin: 0 auto; }
+          .leadershipPair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: 28px; }
           .engineeringLeadsSection { margin-top: 96px; }
           .engineeringLeadsLabel { margin-bottom: 18px; color: #00c2ff; font-size: 11px; font-weight: 600; letter-spacing: 5px; }
           .engineeringLeadsHeading { margin: 0 0 20px; color: #111111; font-size: clamp(34px, 5vw, 58px); line-height: 1; letter-spacing: 5px; font-weight: 700; }
@@ -83,7 +100,7 @@ function TeamSection() {
           .engineeringLeadName { margin: 0; color: #111111; font-size: 14px; font-weight: 700; letter-spacing: 2px; }
           .engineeringLeadDescription { margin: 14px 0 0; color: #4b5563; font-size: 12px; line-height: 1.7; }
           @media (max-width: 1050px) { .engineeringLeadsGrid { grid-template-columns: repeat(2, 1fr); } }
-          @media (max-width: 620px) { .engineeringLeadsSection { margin-top: 72px; } .engineeringLeadsGrid { grid-template-columns: 1fr; } }
+          @media (max-width: 620px) { .mentorLeadership { width: 100%; } .leadershipPair { grid-template-columns: 1fr; } .engineeringLeadsSection { margin-top: 72px; } .engineeringLeadsGrid { grid-template-columns: 1fr; } }
         `}</style>
 
         <section className="engineeringLeadsSection" aria-labelledby="engineering-leads-heading">
