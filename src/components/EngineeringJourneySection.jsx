@@ -42,20 +42,22 @@ const journeyStages = [
 function EngineeringJourneySection() {
   const sectionRef = useRef(null);
   const [hasRevealed, setHasRevealed] = useState(false);
+  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
 
     if (!section || typeof IntersectionObserver === "undefined") {
       setHasRevealed(true);
+      setIsInView(true);
       return undefined;
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        setIsInView(entry.isIntersecting);
         if (entry.isIntersecting) {
           setHasRevealed(true);
-          observer.disconnect();
         }
       },
       { threshold: 0.2 }
@@ -70,7 +72,7 @@ function EngineeringJourneySection() {
     <section
       id="engineering"
       ref={sectionRef}
-      className={`engineeringJourney${hasRevealed ? " isVisible" : ""}`}
+      className={`engineeringJourney${hasRevealed ? " isVisible" : ""}${isInView ? " isInView" : ""}`}
       aria-labelledby="engineering-journey-heading"
     >
       <style>{`
@@ -152,6 +154,66 @@ function EngineeringJourneySection() {
           transform: scaleX(1);
         }
 
+        .engineeringJourneyCar {
+          position: absolute;
+          top: 59px;
+          left: 8.2%;
+          z-index: 2;
+          width: 112px;
+          height: 34px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          pointer-events: none;
+          transform: translate(-50%, -50%);
+          animation: engineeringJourneyCarDrive 8s linear infinite;
+          animation-play-state: paused;
+        }
+
+        .engineeringJourney.isVisible .engineeringJourneyCar { opacity: 1; }
+        .engineeringJourney.isInView .engineeringJourneyCar { animation-play-state: running; }
+
+        .engineeringJourneyCar::after {
+          content: "";
+          position: absolute;
+          right: 100%;
+          width: 58px;
+          height: 3px;
+          background: linear-gradient(90deg, transparent, rgba(0, 194, 255, 0.58));
+          filter: blur(2px);
+        }
+
+        .engineeringJourneyCar svg {
+          width: 112px;
+          height: 34px;
+          overflow: visible;
+          filter: drop-shadow(0 0 5px rgba(0, 194, 255, 0.48));
+        }
+
+        .engineeringJourneyCarBody {
+          fill: #090f12;
+          stroke: #00c2ff;
+          stroke-width: 0.8;
+        }
+
+        .engineeringJourneyCarHighlight {
+          fill: none;
+          stroke: #00c2ff;
+          stroke-width: 0.9;
+        }
+
+        .engineeringJourneyCarWheel {
+          fill: #05080a;
+          stroke: #00c2ff;
+          stroke-width: 0.8;
+        }
+
+        @keyframes engineeringJourneyCarDrive {
+          from { left: 8.2%; }
+          to { left: 91.8%; }
+        }
+
         .engineeringJourneyStage {
           position: relative;
           z-index: 1;
@@ -193,12 +255,12 @@ function EngineeringJourneySection() {
           transition: box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
         }
 
-        .engineeringJourney.isVisible .engineeringJourneyStage:nth-child(2) .engineeringJourneyNode,
-        .engineeringJourney.isVisible .engineeringJourneyStage:nth-child(3) .engineeringJourneyNode,
-        .engineeringJourney.isVisible .engineeringJourneyStage:nth-child(4) .engineeringJourneyNode,
-        .engineeringJourney.isVisible .engineeringJourneyStage:nth-child(5) .engineeringJourneyNode,
-        .engineeringJourney.isVisible .engineeringJourneyStage:nth-child(6) .engineeringJourneyNode,
-        .engineeringJourney.isVisible .engineeringJourneyStage:nth-child(7) .engineeringJourneyNode {
+        .engineeringJourney.isVisible .engineeringJourneyStage:nth-of-type(1) .engineeringJourneyNode,
+        .engineeringJourney.isVisible .engineeringJourneyStage:nth-of-type(2) .engineeringJourneyNode,
+        .engineeringJourney.isVisible .engineeringJourneyStage:nth-of-type(3) .engineeringJourneyNode,
+        .engineeringJourney.isVisible .engineeringJourneyStage:nth-of-type(4) .engineeringJourneyNode,
+        .engineeringJourney.isVisible .engineeringJourneyStage:nth-of-type(5) .engineeringJourneyNode,
+        .engineeringJourney.isVisible .engineeringJourneyStage:nth-of-type(6) .engineeringJourneyNode {
           animation: engineeringNodeGlow 0.7s ease both;
           animation-delay: calc(var(--stage-index) * 0.12s + 0.25s);
         }
@@ -295,6 +357,15 @@ function EngineeringJourneySection() {
             height: calc(100% - 40px);
           }
 
+          .engineeringJourneyCar {
+            top: 20px;
+            left: 42px;
+          }
+
+          .engineeringJourney.isVisible .engineeringJourneyCar {
+            animation-name: engineeringJourneyCarDriveMobile;
+          }
+
           .engineeringJourneyTrack::after {
             width: 100%;
             height: 100%;
@@ -330,6 +401,15 @@ function EngineeringJourneySection() {
             height: 42px;
             margin: 0;
           }
+
+          .engineeringJourneyCar {
+            transform: translate(-50%, -50%) rotate(90deg);
+          }
+
+          @keyframes engineeringJourneyCarDriveMobile {
+            from { top: 20px; }
+            to { top: calc(100% - 40px); }
+          }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -339,6 +419,10 @@ function EngineeringJourneySection() {
           .engineeringJourneyStageTitle::before {
             animation: none !important;
             transition: none !important;
+          }
+          .engineeringJourneyCar {
+            animation: none !important;
+            opacity: 1;
           }
         }
       `}</style>
@@ -357,6 +441,16 @@ function EngineeringJourneySection() {
 
         <div className="engineeringJourneyTimeline" aria-label="VELYXION engineering process">
           <div className="engineeringJourneyTrack" aria-hidden="true" />
+          <div className="engineeringJourneyCar" aria-hidden="true">
+            <svg viewBox="0 0 112 34" role="presentation">
+              <path className="engineeringJourneyCarBody" d="M5 20h14l9-5h25l12 4h25l15 3v4H5z" />
+              <path className="engineeringJourneyCarBody" d="M37 15 45 5h17l12 10M55 15l4-8h9l8 8" />
+              <path className="engineeringJourneyCarBody" d="M2 20h16l-11 5H1zM96 20h15l-8 5H94z" />
+              <path className="engineeringJourneyCarHighlight" d="M24 20h47l13 3H34zM48 8h12" />
+              <circle className="engineeringJourneyCarWheel" cx="29" cy="28" r="5" />
+              <circle className="engineeringJourneyCarWheel" cx="88" cy="28" r="5" />
+            </svg>
+          </div>
           {journeyStages.map((stage, index) => (
             <article
               className="engineeringJourneyStage"

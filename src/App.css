@@ -182,3 +182,64 @@
     border-right-color: var(--border);
   }
 }
+
+.backToTop {
+  position: fixed !important;
+  right: 24px !important;
+  bottom: 24px !important;
+  z-index: 99999 !important;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #00c2ff;
+  border-radius: 50%;
+  color: #00c2ff;
+  background: rgba(10, 15, 18, 0.94);
+  box-shadow: 0 0 14px rgba(0, 194, 255, 0.24);
+  font: 24px/1 var(--sans);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 220ms ease, visibility 220ms ease, transform 220ms ease,
+    border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.backToTop.isVisible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.backToTop:hover {
+  border-color: #66ddff;
+  box-shadow: 0 0 20px rgba(0, 194, 255, 0.42);
+  transform: translateY(-3px);
+}
+
+.backToTop:active {
+  transform: translateY(0) scale(0.94);
+}
+
+.backToTop:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1024px) {
+  .backToTop {
+    right: 24px !important;
+    bottom: 24px !important;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backToTop {
+    transition: opacity 1ms linear, visibility 1ms linear;
+  }
+}

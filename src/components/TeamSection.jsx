@@ -6,7 +6,7 @@ function TeamSection() {
       id="team"
       style={{
         minHeight: "100vh",
-        padding: "140px 8vw",
+        padding: "92px 8vw",
         boxSizing: "border-box",
         display: "flex",
         alignItems: "center",
@@ -32,9 +32,9 @@ function TeamSection() {
             </div>
             <div style={contentStyle}>
               <div style={numberStyle}>03.01 / TEAM LEADERSHIP</div>
-              <h3 style={roleStyle}>MENTOR</h3>
               <div style={accentLineStyle} />
               <div style={nameStyle}>Mr. S. Gowtham</div>
+              <h3 style={roleStyle}>MENTOR</h3>
               <p style={descriptionStyle}>Department of Mechanical</p>
             </div>
           </div>
@@ -47,9 +47,9 @@ function TeamSection() {
             </div>
             <div style={contentStyle}>
               <div style={numberStyle}>03.02 / TEAM LEADERSHIP</div>
-              <h3 style={roleStyle}>CAPTAIN</h3>
               <div style={accentLineStyle} />
               <div style={nameStyle}>THIPPUSULTHAN. A</div>
+              <h3 style={roleStyle}>CAPTAIN</h3>
               <p style={descriptionStyle}>Team leadership, coordination, project direction, and overall execution of the VELYXION programme.</p>
             </div>
           </div>
@@ -60,9 +60,9 @@ function TeamSection() {
             </div>
             <div style={contentStyle}>
               <div style={numberStyle}>03.03 / TEAM LEADERSHIP</div>
-              <h3 style={roleStyle}>CO-CAPTAIN</h3>
               <div style={accentLineStyle} />
               <div style={nameStyle}>ASWIN. VA</div>
+              <h3 style={roleStyle}>CO-CAPTAIN</h3>
               <p style={descriptionStyle}>Supporting team leadership, coordination, technical collaboration, and project execution.</p>
             </div>
           </div>
@@ -94,10 +94,10 @@ function TeamSection() {
           .engineeringLeadContent { flex: 1; padding: 22px 22px 24px; }
           .engineeringLeadNumber { display: block; margin-bottom: 13px; color: #00c2ff; font-size: 10px; font-weight: 600; letter-spacing: 3px; }
           .engineeringLeadCategory { margin: 0 0 9px; color: #5b6470; font-size: 10px; font-weight: 700; letter-spacing: 2px; }
-          .engineeringLeadRole { margin: 0; color: #111111; font-size: 17px; line-height: 1.25; letter-spacing: 1.5px; font-weight: 700; }
+          .engineeringLeadRole { margin: 12px 0 0; color: #00c2ff; font-size: clamp(14px, 1.2vw, 18px); line-height: 1.4; letter-spacing: 1.2px; font-weight: 700; white-space: pre-line; overflow-wrap: anywhere; }
           .engineeringLeadAccent { width: 42px; height: 3px; margin: 16px 0; background: #00c2ff; box-shadow: 0 0 10px rgba(0, 194, 255, 0.65); transition: width 0.3s ease, box-shadow 0.3s ease; }
           .engineeringLeadCard:hover .engineeringLeadAccent { width: 64px; box-shadow: 0 0 14px rgba(0, 194, 255, 0.9); }
-          .engineeringLeadName { margin: 0; color: #111111; font-size: 14px; font-weight: 700; letter-spacing: 2px; }
+          .engineeringLeadName { margin: 0; color: #111111; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.25; font-weight: 800; letter-spacing: 1.8px; overflow-wrap: anywhere; }
           .engineeringLeadDescription { margin: 14px 0 0; color: #4b5563; font-size: 12px; line-height: 1.7; }
           @media (max-width: 1050px) { .engineeringLeadsGrid { grid-template-columns: repeat(2, 1fr); } }
           @media (max-width: 620px) { .mentorLeadership { width: 100%; } .leadershipPair { grid-template-columns: 1fr; } .engineeringLeadsSection { margin-top: 72px; } .engineeringLeadsGrid { grid-template-columns: 1fr; } }
@@ -115,7 +115,7 @@ function TeamSection() {
             <EngineeringLeadCard number="04" category="EMBEDDED" role="EMBEDDED LEAD" name="KAVIN V" description="Leads embedded systems development, electronic control integration, software coordination, and vehicle data systems." photo="/team/kavin.JPG" alt="Kavin V - Embedded Lead" />
             <EngineeringLeadCard number="05" category="SUSPENSION & STEERING" role="SUSPENSION & STEERING LEAD" name="NITHESH M" description="Responsible for suspension geometry, steering systems, setup development, and mechanical integration for vehicle handling." photo="/team/nithesh.JPG" alt="Nithesh M - Suspension & Steering Lead" />
             <EngineeringLeadCard number="06" category="DRIVETRAIN & TRANSMISSION" role="DRIVETRAIN & TRANSMISSION ENGINEER" name="NAME TO BE ADDED" description="Responsible for drivetrain integration, transmission components, mechanical power delivery, and coordination between the motor and driven wheels." photo="/team/drivetrain.JPG" alt="Drivetrain & Transmission Engineer" />
-            <EngineeringLeadCard number="07" category="PROJECT & FINANCE" role="PROJECT & FINANCE MANAGER" name="SHARAN S" description="Responsible for project coordination, planning, budgeting, documentation, procurement, and overall team organization." photo="/team/sharan.JPG" alt="Sharan S - Project & Finance Manager" />
+            <EngineeringLeadCard number="07" category="FINANCE" role={"FINANCE MANAGER\nMANUFACTURING & ASSEMBLY LEAD"} name="SHARAN S" description="Responsible for project coordination, planning, budgeting, documentation, procurement, and overall team organization." photo="/team/sharan.JPG" alt="Sharan S - Finance Manager and Manufacturing & Assembly Lead" />
             <EngineeringLeadCard number="08" category="BRAKING & VEHICLE DYNAMICS" role="BRAKING & VEHICLE DYNAMICS LEAD" name="ARULJOTHI R" description="Responsible for braking systems, vehicle dynamics analysis, setup optimization, and coordination of braking performance with the chassis and suspension systems." photo="/team/aruljothi.JPG" alt="Aruljothi R - Braking & Vehicle Dynamics Lead" />
           </div>
         </section>
@@ -144,9 +144,9 @@ function EngineeringLeadCard({ number, category, role, name, description, photo,
       <div className="engineeringLeadContent">
         <span className="engineeringLeadNumber">{number}</span>
         <p className="engineeringLeadCategory">{category}</p>
-        <h4 className="engineeringLeadRole">{role}</h4>
-        <div className="engineeringLeadAccent" />
         {name && <p className="engineeringLeadName">{name}</p>}
+        <div className="engineeringLeadAccent" />
+        <h4 className="engineeringLeadRole">{role}</h4>
         <p className="engineeringLeadDescription">{description}</p>
       </div>
     </article>
@@ -175,9 +175,9 @@ const photoFrameStyle = {
 
 const contentStyle = { padding: "28px 32px 32px" };
 const numberStyle = { color: "#00c2ff", fontSize: "10px", letterSpacing: "4px", fontWeight: "600" };
-const roleStyle = { margin: "18px 0 14px", fontSize: "28px", letterSpacing: "5px", fontWeight: "600" };
+const roleStyle = { margin: "12px 0 0", color: "#00c2ff", fontSize: "18px", lineHeight: "1.4", letterSpacing: "3px", fontWeight: "700" };
 const accentLineStyle = { width: "52px", height: "3px", background: "#00c2ff", boxShadow: "0 0 12px rgba(0, 194, 255, 0.8)", marginBottom: "20px" };
-const nameStyle = { color: "#111111", fontSize: "16px", letterSpacing: "3px", fontWeight: "700" };
+const nameStyle = { color: "#111111", fontSize: "20px", lineHeight: "1.25", letterSpacing: "2px", fontWeight: "800" };
 const descriptionStyle = { maxWidth: "480px", margin: "18px 0 0", color: "#4b5563", fontSize: "13px", lineHeight: "1.8" };
 
 export default TeamSection;

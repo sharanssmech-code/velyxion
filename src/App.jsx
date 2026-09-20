@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import ThreeBackground from "./components/ThreeBackground";
 import Navbar from "./components/Navbar";
+import BackToTop from "./components/BackToTop";
 import TeamSection from "./components/TeamSection";
 import EngineeringJourneySection from "./components/EngineeringJourneySection";
 
@@ -276,6 +277,38 @@ function SpeedometerHUD() {
       </div>
       <div className="speedometerCaption">OUR TOP SPEED</div>
     </div>
+  );
+}
+
+function ContactIcon({ type }) {
+  const paths = {
+    email: (
+      <>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="m4 7 8 6 8-6" />
+      </>
+    ),
+    location: (
+      <>
+        <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </>
+    ),
+    phone: (
+      <path d="M7.5 3.5 5 5c-.8.5-1.1 1.5-.8 2.4 1.7 5.2 5.7 9.2 10.9 10.9.9.3 1.9 0 2.4-.8l1.5-2.5-4-2-1.4 1.7a12.5 12.5 0 0 1-5.2-5.2l1.7-1.4-2.6-4.6Z" />
+    ),
+    socials: (
+      <>
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="M3.8 9h16.4M3.8 15h16.4M12 3.5c2.2 2.4 3.3 5.2 3.3 8.5s-1.1 6.1-3.3 8.5c-2.2-2.4-3.3-5.2-3.3-8.5S9.8 5.9 12 3.5Z" />
+      </>
+    ),
+  };
+
+  return (
+    <svg className="contactIcon" viewBox="0 0 24 24" aria-hidden="true">
+      {paths[type]}
+    </svg>
   );
 }
 
@@ -647,7 +680,7 @@ function App() {
           style={{
             width: "100%",
             minHeight: "100vh",
-            padding: "120px 6vw 110px",
+            padding: "80px 6vw 72px",
             boxSizing: "border-box",
             background: "#ffffff",
             position: "relative",
@@ -1125,7 +1158,7 @@ function App() {
           id="technology"
           style={{
             width: "100%",
-            padding: "132px 6vw 140px",
+            padding: "84px 6vw 96px",
             boxSizing: "border-box",
             background: "#ffffff",
           }}
@@ -1945,12 +1978,29 @@ function App() {
               transform: translateY(-2px);
             }
             .contactLabel {
+              display: flex;
+              align-items: center;
+              gap: 8px;
               color: #00c2ff;
               font-size: 10px;
               letter-spacing: 2.5px;
               text-transform: uppercase;
               margin-bottom: 12px;
               font-weight: 700;
+            }
+            .contactIcon {
+              width: 16px;
+              height: 16px;
+              flex: 0 0 16px;
+              fill: none;
+              stroke: #111111;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              stroke-width: 1.5;
+              transition: stroke 0.25s ease;
+            }
+            .contactCard:hover .contactIcon {
+              stroke: #00c2ff;
             }
             .contactValue {
               color: #111111;
@@ -2062,23 +2112,23 @@ function App() {
               <div className="contactInfoPanel">
                 <div className="contactCardList">
                   <div className="contactCard">
-                    <div className="contactLabel">Email</div>
-                    <div className="contactValue">YOUR.EMAIL@DOMAIN.COM</div>
+                    <div className="contactLabel"><ContactIcon type="email" />Email</div>
+                    <div className="contactValue">sharan.s2024lmech@sece.ac.in</div>
                   </div>
 
                   <div className="contactCard">
-                    <div className="contactLabel">College / Location</div>
-                    <div className="contactValue">YOUR COLLEGE / CITY, COUNTRY</div>
+                    <div className="contactLabel"><ContactIcon type="location" />College / Location</div>
+                    <div className="contactValue">Contact details available on request</div>
                   </div>
 
                   <div className="contactCard">
-                    <div className="contactLabel">Phone</div>
-                    <div className="contactValue">+XX XXX XXXXXXX</div>
+                    <div className="contactLabel"><ContactIcon type="phone" />Phone</div>
+                    <div className="contactValue">Contact details available on request</div>
                   </div>
 
                   <div className="contactCard">
-                    <div className="contactLabel">Socials</div>
-                    <div className="contactValue">@YOURHANDLE / LINKEDIN / INSTAGRAM</div>
+                    <div className="contactLabel"><ContactIcon type="socials" />Socials</div>
+                    <div className="contactValue">Contact details available on request</div>
                   </div>
                 </div>
               </div>
@@ -2169,6 +2219,8 @@ function App() {
           </div>
         </section>
       </main>
+
+      <BackToTop />
     </>
   );
 }
