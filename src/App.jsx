@@ -98,8 +98,9 @@ const technologySystems = [
       "The chassis provides the structural foundation of the vehicle. Structural design focuses on stiffness, component integration, protection, and efficient use of material.",
     elements: ["Structural foundation", "Component integration", "Protection"],
     specifications: [
-      ["CHASSIS TYPE", "DATA TO BE ADDED"],
-      ["MATERIAL", "DATA TO BE ADDED"],
+      ["STRUCTURAL FRAME", "4130 CHROMOLY"],
+      ["SUSPENSION SYSTEM", "Four-wheel independent double wishbone"],
+      ["SHOCK ABSORBER", "Coilover DNM shock absorber"],
     ],
   },
 ];
