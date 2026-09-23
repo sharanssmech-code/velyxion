@@ -1,15 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 import ThreeBackground from "./components/ThreeBackground";
 import Navbar from "./components/Navbar";
 import BackToTop from "./components/BackToTop";
 import TeamSection from "./components/TeamSection";
 import EngineeringJourneySection from "./components/EngineeringJourneySection";
-
-const EMAILJS_SERVICE_ID = "service_7j0w0m9";
-const EMAILJS_TEMPLATE_ID = "template_j7fr6kg";
-const EMAILJS_PUBLIC_KEY = "SudjKQQf4FVarv085";
-const RECIPIENT_EMAIL = "sharan.s2024lmech@sece.ac.in";
 
 const technologySystems = [
   {
@@ -318,20 +312,6 @@ function App() {
   const [heroTilt, setHeroTilt] = useState({ x: 0, y: 0 });
   const [activeTechnology, setActiveTechnology] = useState(null);
   const [hoveredTechnology, setHoveredTechnology] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [status, setStatus] = useState({ type: "", message: "" });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleTechnologyLabelClick = (number) => {
     setActiveTechnology(number);
     window.setTimeout(() => {
@@ -371,61 +351,6 @@ function App() {
 
   const handleHeroLeave = () => {
     setHeroTilt({ x: 0, y: 0 });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const isConfigured =
-      EMAILJS_SERVICE_ID !== "YOUR_SERVICE_ID" &&
-      EMAILJS_TEMPLATE_ID !== "YOUR_TEMPLATE_ID" &&
-      EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY";
-
-    if (!isConfigured) {
-      setStatus({
-        type: "error",
-        message:
-          "EmailJS is not configured yet. Add your Service ID, Template ID, and Public Key in App.jsx before testing the form.",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-    setStatus({ type: "", message: "" });
-
-    const templateParams = {
-      name: formData.name,
-      email: formData.email,
-      subject: formData.subject,
-      message: formData.message,
-      recipient_email: RECIPIENT_EMAIL,
-    };
-
-    emailjs
-      .send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
-      )
-      .then(() => {
-        setStatus({
-          type: "success",
-          message: "Message sent successfully. We will get back to you soon.",
-        });
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      })
-      .catch((error) => {
-        console.error("EmailJS error:", error);
-        setStatus({
-          type: "error",
-          message:
-            "Something went wrong while sending your message. Please try again in a moment.",
-        });
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
   };
 
   return (
@@ -1940,13 +1865,11 @@ function App() {
               margin-top: 20px;
             }
             .contactGrid {
-              display: grid;
-              grid-template-columns: 1.05fr 1.35fr;
-              gap: 28px;
-              align-items: stretch;
+              display: block;
+              width: 100%;
             }
-            .contactInfoPanel,
-            .contactFormPanel {
+            .contactInfoPanel {
+              width: min(100%, 760px);
               background: #f8fafc;
               border: 1px solid rgba(0, 0, 0, 0.10);
               box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
@@ -1955,8 +1878,7 @@ function App() {
               padding: 28px;
               transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
             }
-            .contactInfoPanel:hover,
-            .contactFormPanel:hover {
+            .contactInfoPanel:hover {
               transform: translateY(-3px);
               border-color: rgba(0, 194, 255, 0.5);
               box-shadow: 0 14px 34px rgba(0, 194, 255, 0.08);
@@ -2010,69 +1932,6 @@ function App() {
               line-height: 1.7;
               word-break: break-word;
             }
-            .contactForm {
-              display: grid;
-              gap: 18px;
-            }
-            .fieldRow {
-              display: grid;
-              grid-template-columns: repeat(2, minmax(0, 1fr));
-              gap: 18px;
-            }
-            .formField {
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-            }
-            .formField label {
-              color: #111111;
-              font-size: 11px;
-              letter-spacing: 2px;
-              text-transform: uppercase;
-              font-weight: 700;
-            }
-            .formField input,
-            .formField textarea {
-              width: 100%;
-              box-sizing: border-box;
-              background: #ffffff;
-              border: 1px solid rgba(0, 0, 0, 0.12);
-              border-radius: 10px;
-              color: #111111;
-              font: inherit;
-              padding: 14px 16px;
-              resize: vertical;
-              min-height: 52px;
-              transition: border-color 0.25s ease, box-shadow 0.25s ease;
-            }
-            .formField input:focus,
-            .formField textarea:focus {
-              outline: none;
-              border-color: rgba(0, 194, 255, 0.75);
-              box-shadow: 0 0 0 3px rgba(0, 194, 255, 0.12);
-            }
-            .formField textarea {
-              min-height: 140px;
-            }
-            .sendButton {
-              justify-self: start;
-              padding: 14px 24px;
-              border: 1px solid rgba(0, 194, 255, 0.6);
-              background: linear-gradient(135deg, rgba(0,194,255,0.16), rgba(0,194,255,0.04));
-              color: #00c2ff;
-              text-transform: uppercase;
-              letter-spacing: 2px;
-              font-size: 11px;
-              font-weight: 700;
-              border-radius: 10px;
-              cursor: pointer;
-              transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-            }
-            .sendButton:hover {
-              transform: translateY(-2px);
-              box-shadow: 0 12px 28px rgba(0, 194, 255, 0.18);
-              border-color: rgba(0, 194, 255, 0.9);
-            }
             @media (max-width: 900px) {
               .contactGrid {
                 grid-template-columns: 1fr;
@@ -2090,8 +1949,7 @@ function App() {
               .fieldRow {
                 grid-template-columns: 1fr;
               }
-              .contactInfoPanel,
-              .contactFormPanel {
+              .contactInfoPanel {
                 padding: 22px 18px;
               }
               .contactTitle {
@@ -2114,108 +1972,24 @@ function App() {
                 <div className="contactCardList">
                   <div className="contactCard">
                     <div className="contactLabel"><ContactIcon type="email" />Email</div>
-                    <div className="contactValue">sharan.s2024lmech@sece.ac.in</div>
+                    <div className="contactValue">velxyion@gmail.com</div>
                   </div>
 
                   <div className="contactCard">
                     <div className="contactLabel"><ContactIcon type="location" />College / Location</div>
-                    <div className="contactValue">Contact details available on request</div>
-                  </div>
-
-                  <div className="contactCard">
-                    <div className="contactLabel"><ContactIcon type="phone" />Phone</div>
-                    <div className="contactValue">Contact details available on request</div>
+                    <div className="contactValue">Sri Eshwar College of Engineering</div>
                   </div>
 
                   <div className="contactCard">
                     <div className="contactLabel"><ContactIcon type="socials" />Socials</div>
-                    <div className="contactValue">Contact details available on request</div>
+                    <div className="contactValue">
+                      <div><a href="https://www.instagram.com/velyxion_/" target="_blank" rel="noopener noreferrer">Instagram: @velyxion_</a></div>
+                      <div><a href="https://www.linkedin.com/company/velyxion/" target="_blank" rel="noopener noreferrer">LinkedIn: https://www.linkedin.com/company/velyxion/</a></div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="contactFormPanel">
-                <form className="contactForm" onSubmit={handleSubmit}>
-                  <div className="fieldRow">
-                    <div className="formField">
-                      <label htmlFor="name">Name</label>
-                      <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Your name"
-                        required
-                      />
-                    </div>
-
-                    <div className="formField">
-                      <label htmlFor="email">Email</label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Your email"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="formField">
-                    <label htmlFor="subject">Subject</label>
-                    <input
-                      id="subject"
-                      name="subject"
-                      type="text"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      placeholder="Project enquiry"
-                      required
-                    />
-                  </div>
-
-                  <div className="formField">
-                    <label htmlFor="message">Message</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Tell us about your enquiry..."
-                      required
-                    />
-                  </div>
-
-                  {status.message && (
-                    <div
-                      style={{
-                        padding: "12px 14px",
-                        borderRadius: "10px",
-                        fontSize: "13px",
-                        lineHeight: "1.5",
-                        border: status.type === "success"
-                          ? "1px solid rgba(77, 217, 155, 0.5)"
-                          : "1px solid rgba(255, 92, 92, 0.5)",
-                        background:
-                          status.type === "success"
-                            ? "rgba(77, 217, 155, 0.08)"
-                            : "rgba(255, 92, 92, 0.08)",
-                        color:
-                          status.type === "success" ? "#d7ffe8" : "#ffd9d9",
-                      }}
-                    >
-                      {status.message}
-                    </div>
-                  )}
-
-                  <button type="submit" className="sendButton" disabled={isSubmitting}>
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </button>
-                </form>
-              </div>
             </div>
           </div>
         </section>
